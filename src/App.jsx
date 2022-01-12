@@ -1,3 +1,10 @@
 export default function App() {
-  return <h1>Hello World</h1>;
+  return (
+  <div>
+    <button>undo</button>
+    <button>redo</button>
+    <input type="date" aria-label='date' />
+    <p>please select a date</p>
+  </div>
+    );
 }
