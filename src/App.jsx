@@ -7,16 +7,23 @@ export default function App() {
   function useTimeTravel() {
   
   // const [state, setState] = useState(initialState);
-  const [currVal, setCurrVal] = useState('');
-  const [prevVal, setPrevVal] = useState();
   const [dates, setDates] = useState([]);
+  const [displayIndex, setDisplayIndex] = useState('');
+  const [prevVal, setPrevVal] = useState('');
+  let currVal = dates[displayIndex];
 
-  //will add:
   //save function to set and save a new current value
   const save = (e) => {
-    setCurrVal(e.target.value);
+    const { value } = e.target;
+
+    setDisplayIndex(dates.length);
     
-    // dates.push(e.target.value);
+    setDates((prevState) => {
+      return [
+        ...prevState,
+        value
+      ]
+    })
   }
 
   //undo to set the current value to the previous value
@@ -29,19 +36,25 @@ export default function App() {
 
   }
 
-  return [currVal, prevVal, dates, save, undo, redo]
+  return [displayIndex, prevVal, currVal, dates, save, undo, redo]
 }
 
 ///normal App
 
-  const [currVal, prevVal, dates, save, undo, redo ] = useTimeTravel();
+  const [displayIndex, prevVal, currVal, dates, save, undo, redo ] = useTimeTravel();
+
+  
 
   return (
   <div>
-    <button>undo</button>
-    <button>redo</button>
-    <input type="date" aria-label='date' value={currVal} onChange={save} />
-    {currVal ? ( currVal ) : <p>please select a date</p>}
+    <button onChange={undo}> undo </button>
+    <button onChange={redo}> redo </button>
+    <input type="date" aria-label='date' value={displayIndex} onChange={save} />
+    {currVal ? currVal : <p>please select a date</p>}
+    <section>
+      these are the selected dates
+      {dates}
+    </section>
   </div>
     );
 }
