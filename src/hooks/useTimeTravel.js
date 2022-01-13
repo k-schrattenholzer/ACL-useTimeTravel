@@ -14,7 +14,7 @@ export default function useTimeTravel() {
     // if the index is less than the length of the array then setDisplayIndex(dates.length) otherwise setDisplayIndex(displayIndex - 1)
     setDates((prevState) => [ ...prevState.slice(0, (displayIndex + 1)), value, ...prevState.slice((displayIndex + 1), dates.length + 1) ])
     
-    setDisplayIndex(displayIndex + 1);
+    setDisplayIndex((prevIndex) => prevIndex + 1);
   }
 
   const undo = () => {
@@ -24,11 +24,6 @@ export default function useTimeTravel() {
   const redo = () => {
     setDisplayIndex((prevIndex) => prevIndex + 1)
   }
-
-
-  console.log('currVal',currVal);
-  console.log('dates',dates);
-  console.log('displayIndex',displayIndex);
 
   return [displayIndex, currVal, save, undo, redo]
 }
