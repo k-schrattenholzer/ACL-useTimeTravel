@@ -1,60 +1,57 @@
 import { useState } from 'react';
 
 export default function App() {
-
-//hoook
-
-  function useTimeTravel() {
   
-  // const [state, setState] = useState(initialState);
+  //hook------------------------------------------------------------------------
+  
+  function useTimeTravel() {
+    
   const [dates, setDates] = useState([]);
-  const [displayIndex, setDisplayIndex] = useState('');
-  const [prevVal, setPrevVal] = useState('');
+  const [displayIndex, setDisplayIndex] = useState(-1);
+
   let currVal = dates[displayIndex];
+  
 
   //save function to set and save a new current value
   const save = (e) => {
     const { value } = e.target;
 
-    setDisplayIndex(dates.length);
+    setDisplayIndex((prevIndex) => prevIndex + 1);
     
-    setDates((prevState) => {
-      return [
-        ...prevState,
-        value
-      ]
-    })
+    setDates((prevState) => [ ...prevState, value ])
   }
 
   //undo to set the current value to the previous value
   const undo = () => {
-
+    setDisplayIndex((prevIndex) => prevIndex - 1)
   }
 
   //redo to set the current value to the next value
   const redo = () => {
-
+    setDisplayIndex((prevIndex) => prevIndex + 1)
   }
 
-  return [displayIndex, prevVal, currVal, dates, save, undo, redo]
+  return [displayIndex, currVal, dates, save, undo, redo]
 }
 
-///normal App
+//App ----------------------------------------------------------------------------
 
-  const [displayIndex, prevVal, currVal, dates, save, undo, redo ] = useTimeTravel();
-
+  const [displayIndex, currVal, dates, save, undo, redo ] = useTimeTravel();
+  
+ 
+  
+  console.log('DATES', dates);
+  console.log('currVal', currVal);
+  console.log('displayIndex', displayIndex);
   
 
   return (
   <div>
-    <button onChange={undo}> undo </button>
-    <button onChange={redo}> redo </button>
-    <input type="date" aria-label='date' value={displayIndex} onChange={save} />
-    {currVal ? currVal : <p>please select a date</p>}
-    <section>
-      these are the selected dates
-      {dates}
-    </section>
+    <button onClick={undo}> undo </button>
+    <button onClick={redo}> redo </button>
+    <input type="date" aria-label='date' value={currVal} onChange={save} />
+    {currVal ? ( <p>the date you selected is: {currVal} </p>) : <p>please select a date</p>}
+
   </div>
     );
 }
