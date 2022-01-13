@@ -10,7 +10,8 @@ describe('useTimeTravel', () => {
     const dateInput = screen.getByLabelText(/date/i);
 
     screen.getByText(/please select a date/i)
-    
+
+    //select a date to see the date change x 2    
     fireEvent.change(dateInput, { target: { value: '2001-01-01'}});
     screen.getByText(/the date you selected is: 2001-01-01/i);
 

@@ -25,5 +25,5 @@ export default function useTimeTravel() {
     setDisplayIndex((prevIndex) => prevIndex + 1)
   }
 
-  return [displayIndex, currVal, save, undo, redo]
+  return [displayIndex, dates, currVal, save, undo, redo]
 }
